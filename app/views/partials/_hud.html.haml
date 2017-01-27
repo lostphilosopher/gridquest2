@@ -1,0 +1,4 @@
+%a{name: 'gametop'}                                                                     
+- if @box
+  .text-center
+    = "H: #{@game.player_health}/#{@game.player.base_health} #{@population.display_character(false)}: (#{@box.x},#{@box.y})"

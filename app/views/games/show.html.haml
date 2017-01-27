@@ -1,23 +1,36 @@
-%h1
-  = @game.id
-%h2
-  = "(#{@game.current_box.x}, #{@game.current_box.y})"
-%h3
-  = "#{@game.current_box.paths}"
-%hr
-  = @game.current_box.paths.split("").each do |d|
-    = link_to "Move #{d}", game_move_path(id: @game.id, direction: d)
-%hr
-%br
-
-- grid = Grid.last
-
-- (1..grid.y_max).reverse_each do |y|                                        
-  - (1..grid.x_max).each do |x|
-    - box = grid.find_by_coordinates(x, y)
-    - pop = Population.where(box_id: box.id, game: @game).first	
-    - npc = Npc.find_by(id: pop.npc_id)
-    - item = Item.find_by(id: pop.item_id)
-    = "(#{box.x}, #{box.y})"
-    - if x == grid.x_max
-      %br
+.container-fluid                                                                         
+  .row.fixed-window                                                                      
+    .col-md-3
+      .hidden-xs.hidden-sm                                                               
+        = render 'partials/scene'
+        render 'effect'
+    .col-md-6                                                                            
+      = render 'partials/hud'      
+      = render 'partials/grid'                                                                    
+    .col-md-3                                                                            
+      = render 'partials/npc'                                                                     
+      = render 'partials/item'
+      
+  %hr   
+  .visible-xs-block.visible-sm-block.hidden-md.hidden-lg                                 
+    render 'feed'                                                                      
+    %hr
+    
+  .row
+    .col-sm-3
+      = render 'partials/status'                                                                  
+    .col-sm-6                                                                            
+      .visible-xs-block.visible-sm-block.hidden-md.hidden-lg                             
+        = render 'partials/scene'
+        render 'effect'
+      .hidden-xs.hidden-sm.visible-md-block.visible-lg-block                             
+        render 'feed'
+    .col-sm-3
+      render 'inventory'                                                               
+        
+  if current_user.admin?                                                               
+  render 'admin'                                                                     
+  
+  #spacer
+  #footer 
+    = render 'partials/controller'

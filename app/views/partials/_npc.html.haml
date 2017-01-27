@@ -1,0 +1,9 @@
+%strong
+  Population
+%br
+- if @population.npc
+  = @population.npc.name
+  %br
+  = @population.npc.description
+- else
+  There's no one here.

@@ -1,0 +1,10 @@
+%strong
+  Items
+%br
+- if @population.item
+  = @population.item.name
+  %I
+    = @population.item.description
+- else
+  There's nothing of use here.
+

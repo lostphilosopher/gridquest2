@@ -1,0 +1,43 @@
+.container-fluid.text-center
+  .row
+    .col-xs-5.col-xs-offset-1.text-left
+      Special
+    .col-xs-5.text-right
+      Attack
+
+  .row
+    .col-xs-2.col-xs-offset-3
+    .col-xs-2
+      - if @box.paths.include?('n')
+        = link_to 'North', game_move_path(id: @game.id, direction: 'n')
+      - else
+        North
+    .col-xs-2
+
+  .row
+    .col-xs-2.col-xs-offset-3
+      - if @box.paths.include?('w')
+        = link_to 'West', game_move_path(id: @game.id, direction: 'w')
+      - else
+        West
+    .col-xs-2
+    .col-xs-2
+      - if @box.paths.include?('e')
+        = link_to 'East', game_move_path(id: @game.id, direction: 'e')
+      - else
+        East
+
+  .row
+    .col-xs-2.col-xs-offset-3
+    .col-xs-2
+      - if @box.paths.include?('s')
+        = link_to 'South', game_move_path(id: @game.id, direction: 's')
+      - else
+        South
+    .col-xs-2
+
+  .row
+    .col-xs-5.col-xs-offset-1.text-left
+      Take
+    .col-xs-5.text-right
+      Run            

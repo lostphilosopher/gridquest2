@@ -1,4 +1,4 @@
-= form_for(@npc) do |f|
+= form_for(@player) do |f|
   = f.label :name
   = f.text_field :name
   
@@ -7,12 +7,6 @@
 
   = f.label :theme
   = f.collection_select :theme_id, Theme.all, :id, :name
-
-  = f.label :seed_min
-  = f.text_field :seed_min
-
-  = f.label :seed_max
-  = f.text_field :seed_max
 
   = f.label :base_attack
   = f.text_field :base_attack

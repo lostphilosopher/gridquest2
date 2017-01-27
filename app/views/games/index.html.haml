@@ -1,0 +1,8 @@
+- @games.each do |game|
+  = "Theme: #{game.theme.name}"
+  %br
+  = "Player: #{game.player.name}"
+  %br
+  = "Current Position: (#{game.current_box.x}, #{game.current_box.y})"
+  %br
+  = link_to 'Resume', game_path(id: game.id)

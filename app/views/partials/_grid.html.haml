@@ -1,0 +1,43 @@
+.text-center
+  - grid = Grid.last
+
+  - (1..grid.y_max).reverse_each do |y|                                        
+    - (1..grid.x_max).each do |x|
+      - box = grid.find_by_coordinates(x, y)
+      - pop = Population.where(box_id: box.id, game: @game).first	
+      - npc = Npc.find_by(id: pop.npc_id)
+      - item = Item.find_by(id: pop.item_id)
+      = pop.display_character
+      - if x == grid.x_max
+        %br
+
+  %hr
+  %strong
+    @:
+  You 
+  %strong
+    L:  
+  Locked
+  %strong
+    +:  
+  Healing
+  %strong
+    \-: 
+  Trap  
+  %strong
+    \%: 
+  Teleport
+  %strong
+    E:  
+  Enemy 
+  %strong
+    I:
+  Item
+  %strong
+    ?:
+  Unexplored                                                                            
+  %strong                                                                               
+    X:
+  Explored                                                                              
+  %br
+  %br

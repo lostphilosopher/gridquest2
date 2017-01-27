@@ -1,6 +1,6 @@
-class CreateNpcs < ActiveRecord::Migration[5.0]
+class CreatePlayers < ActiveRecord::Migration[5.0]
   def change
-    create_table :npcs do |t|
+    create_table :players do |t|
       t.string :name, null: false
       t.string :description
       t.integer :base_attack, null: false, default: 1

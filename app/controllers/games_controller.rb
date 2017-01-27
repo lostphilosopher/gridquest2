@@ -1,25 +1,30 @@
 class GamesController < ApplicationController
+	def index
+		@games = Game.where(user_id: current_user.id)
+	end
+
   def show
     @game = Game.find(params[:id])
+    @box = @game.current_box
+    @population = Population.find_by(box_id: @box.id)
   end
 
-  def start
-    @game = Game.create
+  def new
+    @game = Game.new
+  end
 
-    # Build grid (this should be seed or rake task)
-    if Box.count < 100
-      grid = Grid.create(x_max: 10, y_max: 10)
-      (1..grid.y_max).each do |l|
-        (1..grid.x_max).each do |w|
-          Box.create(
-            x: w,
-            y: l,
-            paths: paths_from_grid_boundaries(w, l),
-            grid_id: grid.id
-          )
-        end
-      end
-    end
+  def create
+    # Theme from user choice
+    theme = Theme.find_by(id: params[:game][:theme_id])
+
+    # @todo: Select Player
+    player = Player.where(theme_id: theme.id).first
+
+    @game = Game.create(
+      user_id: current_user.id,
+      player_id: player.id,
+      theme_id: theme.id
+    )
 
     # Build a population
     Box.all.each do |box|
@@ -31,11 +36,15 @@ class GamesController < ApplicationController
       npc = Npc.where("seed_max >= ?", seed).where("seed_min <= ?", seed)
       npc_id = npc.first ? npc.first.id : nil
 
+      scene = Scene.where("seed_max >= ?", seed).where("seed_min <= ?", seed)
+      scene_id = scene.first ? scene.first.id : nil
+
       population = Population.create!(
         seed: seed,
         item_id: item_id,
         npc_id: npc_id,
         box_id: box.id,
+        scene_id: scene_id,
         game: @game
       )
 
@@ -50,17 +59,7 @@ class GamesController < ApplicationController
     redirect_to game_path(id: @game.id)
   end
 
-  def paths_from_grid_boundaries(w, l)
-    x = w
-    y = l
-    paths = ''
-    paths << 'n' if y < 10
-    paths << 's' if y > 1
-    paths << 'e' if x < 10
-    paths << 'w' if x > 1
-
-    paths
-  end
+  # Actions
 
   def move
     @game = Game.find_by(id: params[:id])

@@ -1,4 +1,7 @@
 class Game < ApplicationRecord
+  has_one :user
+  has_one :player
+  has_one :theme
   has_many :populations
 
 	def current_box

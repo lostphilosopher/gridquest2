@@ -1,4 +1,6 @@
 class Grid < ApplicationRecord
+  has_many :boxes
+
   def find_by_coordinates(x_cord, y_cord)
     Box.find_by(
       grid_id: id,
